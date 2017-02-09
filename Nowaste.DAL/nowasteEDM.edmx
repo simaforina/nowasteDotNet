@@ -1,0 +1,735 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище nowasteDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CityDistricts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="cityID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ClientPersonPhoneNumbbers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="ClientPersonID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="operatorCode" Type="varchar" MaxLength="50" />
+          <Property Name="phoneNum" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ClientPersons">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="companyID" Type="uniqueidentifier" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="invoiceInfo" Type="xml" />
+        </EntityType>
+        <EntityType Name="Emploees">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="position" Type="varchar" MaxLength="50" />
+          <Property Name="phoneCode" Type="varchar" MaxLength="50" />
+          <Property Name="phoneNumber" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="RecycledResourses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="clientPersonID" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="requestDate" Type="datetime" Nullable="false" />
+          <Property Name="takeOutDate" Type="datetime" />
+          <Property Name="recycleResoursesID" Type="int" />
+          <Property Name="recycleResoursesWeight" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="managerID" Type="uniqueidentifier" />
+          <Property Name="statusID" Type="int" />
+          <Property Name="comments" Type="text" />
+          <Property Name="cityID" Type="int" />
+          <Property Name="cityDistrictID" Type="int" />
+          <Property Name="executorID" Type="uniqueidentifier" />
+          <Property Name="takeOutAddress" Type="varchar" MaxLength="50" />
+          <Property Name="companyID" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityType Name="RequestStatuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="CityDistrict">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+          <End Role="CityDistricts" Type="Self.CityDistricts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CityDistricts">
+              <PropertyRef Name="cityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ClientPhones">
+          <End Role="ClientPersons" Type="Self.ClientPersons" Multiplicity="1" />
+          <End Role="ClientPersonPhoneNumbbers" Type="Self.ClientPersonPhoneNumbbers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientPersons">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ClientPersonPhoneNumbbers">
+              <PropertyRef Name="ClientPersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CompanyClientPersons">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="ClientPersons" Type="Self.ClientPersons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ClientPersons">
+              <PropertyRef Name="companyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestCity">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="cityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestCityDistrict">
+          <End Role="CityDistricts" Type="Self.CityDistricts" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CityDistricts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="cityDistrictID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestClientPerson">
+          <End Role="ClientPersons" Type="Self.ClientPersons" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientPersons">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="clientPersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestCompany">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="companyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestExecutor">
+          <End Role="Emploees" Type="Self.Emploees" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emploees">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="executorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestManaager">
+          <End Role="Emploees" Type="Self.Emploees" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emploees">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="managerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestRecycleResourses">
+          <End Role="RecycledResourses" Type="Self.RecycledResourses" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecycledResourses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="recycleResoursesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestStatus">
+          <End Role="RequestStatuses" Type="Self.RequestStatuses" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestStatuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище nowasteDBModelContainer">
+          <EntitySet Name="Cities" EntityType="Self.Cities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CityDistricts" EntityType="Self.CityDistricts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientPersonPhoneNumbbers" EntityType="Self.ClientPersonPhoneNumbbers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ClientPersons" EntityType="Self.ClientPersons" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Companies" EntityType="Self.Companies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Emploees" EntityType="Self.Emploees" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RecycledResourses" EntityType="Self.RecycledResourses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RequestStatuses" EntityType="Self.RequestStatuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="CityDistrict" Association="Self.CityDistrict">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="CityDistricts" EntitySet="CityDistricts" />
+          </AssociationSet>
+          <AssociationSet Name="ClientPhones" Association="Self.ClientPhones">
+            <End Role="ClientPersons" EntitySet="ClientPersons" />
+            <End Role="ClientPersonPhoneNumbbers" EntitySet="ClientPersonPhoneNumbbers" />
+          </AssociationSet>
+          <AssociationSet Name="CompanyClientPersons" Association="Self.CompanyClientPersons">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="ClientPersons" EntitySet="ClientPersons" />
+          </AssociationSet>
+          <AssociationSet Name="RequestCity" Association="Self.RequestCity">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestCityDistrict" Association="Self.RequestCityDistrict">
+            <End Role="CityDistricts" EntitySet="CityDistricts" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestClientPerson" Association="Self.RequestClientPerson">
+            <End Role="ClientPersons" EntitySet="ClientPersons" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestCompany" Association="Self.RequestCompany">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestExecutor" Association="Self.RequestExecutor">
+            <End Role="Emploees" EntitySet="Emploees" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestManaager" Association="Self.RequestManaager">
+            <End Role="Emploees" EntitySet="Emploees" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestRecycleResourses" Association="Self.RequestRecycleResourses">
+            <End Role="RecycledResourses" EntitySet="RecycledResourses" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestStatus" Association="Self.RequestStatus">
+            <End Role="RequestStatuses" EntitySet="RequestStatuses" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="nowasteDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Cities">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="CityDistricts" Relationship="Self.CityDistrict" FromRole="Cities" ToRole="CityDistricts" />
+          <NavigationProperty Name="Requests" Relationship="Self.RequestCity" FromRole="Cities" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="CityDistricts">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="cityID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Cities" Relationship="Self.CityDistrict" FromRole="CityDistricts" ToRole="Cities" />
+          <NavigationProperty Name="Requests" Relationship="Self.RequestCityDistrict" FromRole="CityDistricts" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="ClientPersonPhoneNumbbers">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="ClientPersonID" Type="Guid" Nullable="false" />
+          <Property Name="operatorCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phoneNum" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ClientPersons" Relationship="Self.ClientPhones" FromRole="ClientPersonPhoneNumbbers" ToRole="ClientPersons" />
+        </EntityType>
+        <EntityType Name="ClientPersons">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="companyID" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="ClientPersonPhoneNumbbers" Relationship="Self.ClientPhones" FromRole="ClientPersons" ToRole="ClientPersonPhoneNumbbers" />
+          <NavigationProperty Name="Companies" Relationship="Self.CompanyClientPersons" FromRole="ClientPersons" ToRole="Companies" />
+          <NavigationProperty Name="Requests" Relationship="Self.RequestClientPerson" FromRole="ClientPersons" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="Companies">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="invoiceInfo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientPersons" Relationship="Self.CompanyClientPersons" FromRole="Companies" ToRole="ClientPersons" />
+          <NavigationProperty Name="Requests" Relationship="Self.RequestCompany" FromRole="Companies" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="Emploees">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phoneCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="phoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Requests" Relationship="Self.RequestExecutor" FromRole="Emploees" ToRole="Requests" />
+          <NavigationProperty Name="Requests1" Relationship="Self.RequestManaager" FromRole="Emploees" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="RecycledResourses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="Self.RequestRecycleResourses" FromRole="RecycledResourses" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="Requests">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Guid" Nullable="false" />
+          <Property Name="clientPersonID" Type="Guid" Nullable="false" />
+          <Property Name="requestDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="takeOutDate" Type="DateTime" Precision="3" />
+          <Property Name="recycleResoursesID" Type="Int32" />
+          <Property Name="recycleResoursesWeight" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="managerID" Type="Guid" />
+          <Property Name="statusID" Type="Int32" />
+          <Property Name="comments" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="cityID" Type="Int32" />
+          <Property Name="cityDistrictID" Type="Int32" />
+          <Property Name="executorID" Type="Guid" />
+          <Property Name="takeOutAddress" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="companyID" Type="Guid" />
+          <NavigationProperty Name="Cities" Relationship="Self.RequestCity" FromRole="Requests" ToRole="Cities" />
+          <NavigationProperty Name="CityDistricts" Relationship="Self.RequestCityDistrict" FromRole="Requests" ToRole="CityDistricts" />
+          <NavigationProperty Name="ClientPersons" Relationship="Self.RequestClientPerson" FromRole="Requests" ToRole="ClientPersons" />
+          <NavigationProperty Name="Companies" Relationship="Self.RequestCompany" FromRole="Requests" ToRole="Companies" />
+          <NavigationProperty Name="Emploees" Relationship="Self.RequestExecutor" FromRole="Requests" ToRole="Emploees" />
+          <NavigationProperty Name="Emploees1" Relationship="Self.RequestManaager" FromRole="Requests" ToRole="Emploees" />
+          <NavigationProperty Name="RecycledResourses" Relationship="Self.RequestRecycleResourses" FromRole="Requests" ToRole="RecycledResourses" />
+          <NavigationProperty Name="RequestStatuses" Relationship="Self.RequestStatus" FromRole="Requests" ToRole="RequestStatuses" />
+        </EntityType>
+        <EntityType Name="RequestStatuses">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Requests" Relationship="Self.RequestStatus" FromRole="RequestStatuses" ToRole="Requests" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="CityDistrict">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="1" />
+          <End Role="CityDistricts" Type="Self.CityDistricts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="CityDistricts">
+              <PropertyRef Name="cityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestCity">
+          <End Role="Cities" Type="Self.Cities" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Cities">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="cityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestCityDistrict">
+          <End Role="CityDistricts" Type="Self.CityDistricts" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CityDistricts">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="cityDistrictID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ClientPhones">
+          <End Role="ClientPersons" Type="Self.ClientPersons" Multiplicity="1" />
+          <End Role="ClientPersonPhoneNumbbers" Type="Self.ClientPersonPhoneNumbbers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientPersons">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ClientPersonPhoneNumbbers">
+              <PropertyRef Name="ClientPersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="CompanyClientPersons">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="1" />
+          <End Role="ClientPersons" Type="Self.ClientPersons" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ClientPersons">
+              <PropertyRef Name="companyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestClientPerson">
+          <End Role="ClientPersons" Type="Self.ClientPersons" Multiplicity="1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ClientPersons">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="clientPersonID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestCompany">
+          <End Role="Companies" Type="Self.Companies" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Companies">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="companyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestExecutor">
+          <End Role="Emploees" Type="Self.Emploees" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emploees">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="executorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestManaager">
+          <End Role="Emploees" Type="Self.Emploees" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Emploees">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="managerID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestRecycleResourses">
+          <End Role="RecycledResourses" Type="Self.RecycledResourses" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RecycledResourses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="recycleResoursesID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="RequestStatus">
+          <End Role="RequestStatuses" Type="Self.RequestStatuses" Multiplicity="0..1" />
+          <End Role="Requests" Type="Self.Requests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="RequestStatuses">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Requests">
+              <PropertyRef Name="statusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="nowasteDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Cities" EntityType="Self.Cities" />
+          <EntitySet Name="CityDistricts" EntityType="Self.CityDistricts" />
+          <EntitySet Name="ClientPersonPhoneNumbbers" EntityType="Self.ClientPersonPhoneNumbbers" />
+          <EntitySet Name="ClientPersons" EntityType="Self.ClientPersons" />
+          <EntitySet Name="Companies" EntityType="Self.Companies" />
+          <EntitySet Name="Emploees" EntityType="Self.Emploees" />
+          <EntitySet Name="RecycledResourses" EntityType="Self.RecycledResourses" />
+          <EntitySet Name="Requests" EntityType="Self.Requests" />
+          <EntitySet Name="RequestStatuses" EntityType="Self.RequestStatuses" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <AssociationSet Name="CityDistrict" Association="Self.CityDistrict">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="CityDistricts" EntitySet="CityDistricts" />
+          </AssociationSet>
+          <AssociationSet Name="RequestCity" Association="Self.RequestCity">
+            <End Role="Cities" EntitySet="Cities" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestCityDistrict" Association="Self.RequestCityDistrict">
+            <End Role="CityDistricts" EntitySet="CityDistricts" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="ClientPhones" Association="Self.ClientPhones">
+            <End Role="ClientPersons" EntitySet="ClientPersons" />
+            <End Role="ClientPersonPhoneNumbbers" EntitySet="ClientPersonPhoneNumbbers" />
+          </AssociationSet>
+          <AssociationSet Name="CompanyClientPersons" Association="Self.CompanyClientPersons">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="ClientPersons" EntitySet="ClientPersons" />
+          </AssociationSet>
+          <AssociationSet Name="RequestClientPerson" Association="Self.RequestClientPerson">
+            <End Role="ClientPersons" EntitySet="ClientPersons" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestCompany" Association="Self.RequestCompany">
+            <End Role="Companies" EntitySet="Companies" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestExecutor" Association="Self.RequestExecutor">
+            <End Role="Emploees" EntitySet="Emploees" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestManaager" Association="Self.RequestManaager">
+            <End Role="Emploees" EntitySet="Emploees" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestRecycleResourses" Association="Self.RequestRecycleResourses">
+            <End Role="RecycledResourses" EntitySet="RecycledResourses" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+          <AssociationSet Name="RequestStatus" Association="Self.RequestStatus">
+            <End Role="RequestStatuses" EntitySet="RequestStatuses" />
+            <End Role="Requests" EntitySet="Requests" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище nowasteDBModelContainer" CdmEntityContainer="nowasteDBEntities">
+          <EntitySetMapping Name="Cities">
+            <EntityTypeMapping TypeName="nowasteDBModel.Cities">
+              <MappingFragment StoreEntitySet="Cities">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CityDistricts">
+            <EntityTypeMapping TypeName="nowasteDBModel.CityDistricts">
+              <MappingFragment StoreEntitySet="CityDistricts">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="cityID" ColumnName="cityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientPersonPhoneNumbbers">
+            <EntityTypeMapping TypeName="nowasteDBModel.ClientPersonPhoneNumbbers">
+              <MappingFragment StoreEntitySet="ClientPersonPhoneNumbbers">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="ClientPersonID" ColumnName="ClientPersonID" />
+                <ScalarProperty Name="operatorCode" ColumnName="operatorCode" />
+                <ScalarProperty Name="phoneNum" ColumnName="phoneNum" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ClientPersons">
+            <EntityTypeMapping TypeName="nowasteDBModel.ClientPersons">
+              <MappingFragment StoreEntitySet="ClientPersons">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="companyID" ColumnName="companyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Companies">
+            <EntityTypeMapping TypeName="nowasteDBModel.Companies">
+              <MappingFragment StoreEntitySet="Companies">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="invoiceInfo" ColumnName="invoiceInfo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Emploees">
+            <EntityTypeMapping TypeName="nowasteDBModel.Emploees">
+              <MappingFragment StoreEntitySet="Emploees">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="phoneCode" ColumnName="phoneCode" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RecycledResourses">
+            <EntityTypeMapping TypeName="nowasteDBModel.RecycledResourses">
+              <MappingFragment StoreEntitySet="RecycledResourses">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Requests">
+            <EntityTypeMapping TypeName="nowasteDBModel.Requests">
+              <MappingFragment StoreEntitySet="Requests">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="clientPersonID" ColumnName="clientPersonID" />
+                <ScalarProperty Name="requestDate" ColumnName="requestDate" />
+                <ScalarProperty Name="takeOutDate" ColumnName="takeOutDate" />
+                <ScalarProperty Name="recycleResoursesID" ColumnName="recycleResoursesID" />
+                <ScalarProperty Name="recycleResoursesWeight" ColumnName="recycleResoursesWeight" />
+                <ScalarProperty Name="managerID" ColumnName="managerID" />
+                <ScalarProperty Name="statusID" ColumnName="statusID" />
+                <ScalarProperty Name="comments" ColumnName="comments" />
+                <ScalarProperty Name="cityID" ColumnName="cityID" />
+                <ScalarProperty Name="cityDistrictID" ColumnName="cityDistrictID" />
+                <ScalarProperty Name="executorID" ColumnName="executorID" />
+                <ScalarProperty Name="takeOutAddress" ColumnName="takeOutAddress" />
+                <ScalarProperty Name="companyID" ColumnName="companyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RequestStatuses">
+            <EntityTypeMapping TypeName="nowasteDBModel.RequestStatuses">
+              <MappingFragment StoreEntitySet="RequestStatuses">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="nowasteDBModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

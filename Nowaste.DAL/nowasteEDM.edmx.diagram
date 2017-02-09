@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="444b020518524e8facf30312795f0042" Name="Diagram1">
+        <EntityTypeShape EntityType="nowasteDBModel.Cities" Width="1.5" PointX="6" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="nowasteDBModel.CityDistricts" Width="1.5" PointX="6" PointY="10.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="nowasteDBModel.ClientPersonPhoneNumbbers" Width="1.5" PointX="5.25" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="nowasteDBModel.ClientPersons" Width="1.5" PointX="3" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="nowasteDBModel.Companies" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="nowasteDBModel.Emploees" Width="1.5" PointX="6" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="nowasteDBModel.RecycledResourses" Width="1.5" PointX="6" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="nowasteDBModel.Requests" Width="1.5" PointX="8.25" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="nowasteDBModel.RequestStatuses" Width="1.5" PointX="6" PointY="18.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="nowasteDBModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="nowasteDBModel.CityDistrict" ManuallyRouted="false" />
+        <AssociationConnector Association="nowasteDBModel.RequestCity" ManuallyRouted="false" />
+        <AssociationConnector Association="nowasteDBModel.RequestCityDistrict" ManuallyRouted="false" />
+        <AssociationConnector Association="nowasteDBModel.ClientPhones" ManuallyRouted="false" />
+        <AssociationConnector Association="nowasteDBModel.CompanyClientPersons" ManuallyRouted="false" />
+        <AssociationConnector Association="nowasteDBModel.RequestClientPerson" ManuallyRouted="false" />
+        <AssociationConnector Association="nowasteDBModel.RequestCompany" ManuallyRouted="false" />
+        <AssociationConnector Association="nowasteDBModel.RequestExecutor" ManuallyRouted="false" />
+        <AssociationConnector Association="nowasteDBModel.RequestManaager" ManuallyRouted="false" />
+        <AssociationConnector Association="nowasteDBModel.RequestRecycleResourses" ManuallyRouted="false" />
+        <AssociationConnector Association="nowasteDBModel.RequestStatus" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
